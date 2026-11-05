@@ -6,11 +6,12 @@
 #include <stdexcept>
 
 class Maquina {
-public:
+protected:
     std::string nombre;
     int piezasProcesadas;
     double tiempoCiclo;
 
+public:
     explicit Maquina(std::string n, int p, double t) {
         if (n.empty()) {
             throw std::invalid_argument("El nombre de la maquina no puede estar vacio.");
@@ -24,9 +25,13 @@ public:
         tiempoCiclo = t;
     }
 
-    void procesar() {
-        std::cout << "La maquina " << nombre << " esta procesando piezas." << std::endl;
+    virtual ~Maquina() {}
+    
+    virtual void procesar() {
+        std::cout << "Maquina generica procesando..." << std::endl;
     }
+    
+    std::string getNombre() const { return nombre; }
 };
 
 #endif
