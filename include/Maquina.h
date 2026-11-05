@@ -3,6 +3,7 @@
 
 #include <string>
 #include <iostream>
+#include <stdexcept>
 
 class Maquina {
 public:
@@ -10,7 +11,14 @@ public:
     int piezasProcesadas;
     double tiempoCiclo;
 
-    Maquina(std::string n, int p, double t) {
+    explicit Maquina(std::string n, int p, double t) {
+        if (n.empty()) {
+            throw std::invalid_argument("El nombre de la maquina no puede estar vacio.");
+        }
+        if (p < 0 || t < 0) {
+            throw std::out_of_range("Las piezas y el tiempo de ciclo no pueden ser negativos.");
+        }
+
         nombre = n;
         piezasProcesadas = p;
         tiempoCiclo = t;
