@@ -28,20 +28,20 @@ Llena cada espacio conforme avances en las fases de [PRACTICA.md](PRACTICA.md).
 
 **2.2 Diagrama final (Etapa 9)**
 
-![Diagrama final](diseno_solucion.png)
+![Diagrama final](image.png)
 
 **2.3 ¿Qué cambió entre los dos diagramas?**
 
 | Elemento | Etapa 0 | Etapa 9 | Etapa que lo cambió |
 | --- | --- | --- | --- |
-| Visibilidad de los atributos de `Maquina` | _____ | _____ | _____ |
-| `procesar()` | _____ | _____ | _____ |
-| `tiempoCicloSeg()` | _____ | _____ | _____ |
-| Destructor de `Maquina` | _____ | _____ | _____ |
-| ¿Se pueden crear objetos `Maquina`? | _____ | _____ | _____ |
-| Relación `ControlDeLinea` - `Maquina` | _____ | _____ | _____ |
-| Relación `Torno` - `Motor` | _____ | _____ | _____ |
-| Relación `BandaTransportadora` - `Motor` | _____ | _____ | _____ |
+| Visibilidad de los atributos de `Maquina` | public | protected | encapsulamiento |
+| `procesar()` | normal | virtual puro (=0) | polimorfismo |
+| `tiempoCicloSeg()` | atributo simple | metodo heredado | polimorfismo |
+| Destructor de `Maquina` | no virtual | virtual | gestion de memoria |
+| ¿Se pueden crear objetos `Maquina`? | si | no (no es abstracta) | polimorfismo |
+| Relación `ControlDeLinea` - `Maquina` | No habia | agregacion con punteros | polimorfismo |
+| Relación `Torno` - `Motor` | no existia | composicion  | composicion |
+| Relación `BandaTransportadora` - `Motor` | no existia | composicion | composicion |
 
 ## Fase 3. Implementar
 
@@ -49,45 +49,45 @@ Llena cada espacio conforme avances en las fases de [PRACTICA.md](PRACTICA.md).
 
 a) ¿Qué imprime `ejecutarTurno()` para el torno y la fresadora? ¿Por qué no imprime "torneando" ni "fresando"?
 
-[Inserta aquí tu respuesta]
+[Imprime los datos genericos de la clase base porque en la estapa 0 todavia no usabamos metodos virtuales ni polimorfismos, entonces el compilador solo ve el tipo maquina y no ejecuta el comportamiento espesifico de las hijas]
 
 b) ¿Por qué el torno acumula 65 s y no 135 s?
 
-[Inserta aquí tu respuesta]
+[Porque solo acumulo el tiempo de un ciclo individual en lugar de sumar todas las operaciones completas de la linea]
 
 **3.1 Etapa 1. Invariantes y constructores explicit**
 
 a) ¿Qué regla de la sección 1.2 rompió `torno.piezasProcesadas = -5;`?
 
-[Inserta aquí tu respuesta]
+[El invariante de la calse ya que las piezas procesadas no pueden tener valores negativos]
 
 b) ¿De dónde salió la máquina "Fantasma"? ¿Qué hizo el compilador sin que se lo pidieras?
 
-[Inserta aquí tu respuesta]
+[La creo el compilador automaticamente generando un constructor por defecto implicito al no definir nosotrs uno explicito]
 
 c) ¿Qué tuviste que cambiar en `Torno` y `Fresadora` y por qué?
 
-[Inserta aquí tu respuesta]
+[agregamos explicit en los constructores para evitar que el compilador hiciera conversaciones implicitas de tipos no deseados]
 
 **3.2 Etapa 2. Virtual y override**
 
 a) La fresadora acumula 180 s, pero reporta 360 pzas/h. ¿Por qué un cálculo usó 60 s y el otro 10 s?
 
-[Inserta aquí tu respuesta]
+[Porque uno hizo la conversacion de tiempo usando la base de 60 segundos por minuto y el otro calculo la tasa proporcional para la hora]
 
 b) ¿Tu compilador mostró alguna advertencia antes de usar `override`? ¿Qué mensaje dio después de agregar `override`?
 
-[Inserta aquí tu respuesta]
+[Antes no decia nada pero con override el compilador avisa si el metodo no esta sobreescribiendo correctamente a uno de las clases base]
 
 **3.3 Etapa 3. La línea de producción**
 
 a) ¿Por qué la línea procesó todo como "generico" si `procesar()` ya es virtual?
 
-[Inserta aquí tu respuesta]
+[Porque todavia estamos usandoobjetos por valor en lugar de punteros o referencias lo que cuasa rebanado de objetos]
 
 b) ¿Por qué el torno y la fresadora originales quedaron con 0 piezas?
 
-[Inserta aquí tu respuesta]
+[Por culpa del rebanado de objetos ya que al copiarlos por valor a la coleccion se perdieron los datos originales y solo se guardo la parte base de maquina]
 
 c) La relación entre `ControlDeLinea` y `Maquina`, ¿es composición o agregación? ¿Por qué?
 
