@@ -13,6 +13,10 @@ public:
     void procesar() override {
         std::cout << "El Torno " << nombre << " esta torneando a " << rpm << " RPM." << std::endl;
     }
+
+    ~Torno() override {
+    std::cout << "Destruyendo Torno: " << nombre << std::endl;
+}
 };
 
 #endif
