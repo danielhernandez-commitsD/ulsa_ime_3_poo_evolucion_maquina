@@ -8,23 +8,23 @@ Llena cada espacio conforme avances en las fases de [PRACTICA.md](PRACTICA.md).
 
 **1.1 El problema con mis propias palabras**
 
-[Inserta aquí tu respuesta]
+[Una empresa manofacturera quiere mejorar el codigo de sus maquinas para hacerlas mes eficientes, buscan hacer una mejora en la clase maquina buscando un codigo mas completo de manera que impida errores antes de que sea cometan ]
 
 **1.2 Reglas que siempre deben cumplirse en una máquina** (escribe al menos tres)
 
-1. _____
-2. _____
-3. _____
+1. Una maquina no puede iniciar un ciclo de trabajo si no tiene un nombre valido
+2. El tiempo de ciclos y el numero de piezas no puede ser negativo 
+3. El estado de la maquina siempre debe de ser valido
 
 **1.3 ¿Quién más usa la clase `Maquina`? ¿Qué podría salir mal si otro equipo crea una máquina nueva sin conocer tus reglas?**
 
-[Inserta aquí tu respuesta]
+[Al no encapsular el diseño de la clase otro programador podria modificar valores y corromper atributos, instanciar objetos en maquina provocando sesgos en los calculos]
 
 ## Fase 2. Diseñar la solución
 
 **2.1 Diagrama inicial (Etapa 0)**
 
-![Diagrama inicial](diseno_inicial.png)
+![Diagrama inicial](image-2.png)
 
 **2.2 Diagrama final (Etapa 9)**
 

@@ -26,6 +26,13 @@ int main() {
         std::cout << "Error: " << e.what() << std::endl;
     }
 
+    try {
+    Maquina* tornoInvalido = new Torno("Torno Extremo", 20, 1.0, 5000);
+    tornoInvalido->procesar();
+    delete tornoInvalido;
+} catch (const std::exception& e) {
+    std::cout << "Error de contrato capturado: " << e.what() << std::endl;
+}
 
     return 0;
 }
