@@ -2,6 +2,8 @@
 #include "Maquina.h"
 #include "Torno.h"
 #include "Fresadora.h"
+#include "Cortadora.h"
+#include "BandaTransportadora.h"
 #include "ControlDeLinea.h"
 
 int main() {
@@ -18,7 +20,9 @@ int main() {
         ControlDeLinea linea;
         
         linea.agregarMaquina(new Torno("Torno CNC 1", 50, 1.5, 2500));
-        linea.agregarMaquina(new Torno("Torno Revolver", 30, 2.0, 1800));
+        linea.agregarMaquina(new Fresadora("Fresadora Vertical 1", 40, 2.0, 120.5));
+        linea.agregarMaquina(new Cortadora("Cortadora Laser 1", 60, 0.8, 850.0));
+        linea.agregarMaquina(new BandaTransportadora("Banda Principal", 100, 0.5, 2.5));
 
         std::cout << "--- Iniciando operacion de la linea de produccion ---" << std::endl;
         linea.ejecutarLinea();
@@ -35,16 +39,6 @@ int main() {
     std::cout << "Error de contrato capturado: " << e.what() << std::endl;
     }
 
-    try {
-    ControlDeLinea linea;
-    linea.agregarMaquina(new Torno("Torno CNC 1", 50, 1.5, 2500));
-    linea.agregarMaquina(new Fresadora("Fresadora Vertical 1", 40, 2.0, 120.5));
-
-    std::cout << "--- Iniciando operacion de la linea de produccion ---" << std::endl;
-    linea.ejecutarLinea();
-    } catch (const std::exception& e) {
-    std::cout << "Error: " << e.what() << std::endl;
-    }
-
+    
     return 0;
 }
