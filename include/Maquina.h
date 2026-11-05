@@ -27,9 +27,7 @@ public:
 
     virtual ~Maquina() {}
     
-    virtual void procesar() {
-        std::cout << "Maquina generica procesando..." << std::endl;
-    }
+    virtual void procesar() = 0;
     
     std::string getNombre() const { return nombre; }
 };
