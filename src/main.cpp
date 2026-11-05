@@ -1,6 +1,7 @@
 #include <iostream>
 #include "Maquina.h"
 #include "Torno.h"
+#include "ControlDeLinea.h"
 
 int main() {
     try {
@@ -19,5 +20,20 @@ int main() {
     } catch (const std::exception& e) {
         std::cout << "Error: " << e.what() << std::endl;
     }
+
+    try {
+        ControlDeLinea linea;
+        
+        linea.agregarMaquina(new Torno("Torno CNC 1", 50, 1.5, 2500));
+        linea.agregarMaquina(new Torno("Torno Revolver", 30, 2.0, 1800));
+
+        std::cout << "--- Iniciando operacion de la linea de produccion ---" << std::endl;
+        linea.ejecutarLinea();
+
+    } catch (const std::exception& e) {
+        std::cout << "Error: " << e.what() << std::endl;
+    }
+
+
     return 0;
 }
