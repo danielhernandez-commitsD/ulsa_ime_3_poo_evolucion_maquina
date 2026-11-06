@@ -24,7 +24,7 @@ Llena cada espacio conforme avances en las fases de [PRACTICA.md](PRACTICA.md).
 
 **2.1 Diagrama inicial (Etapa 0)**
 
-![Diagrama inicial](image-2.png)
+![diagrama inicial](image-1.png)
 
 **2.2 Diagrama final (Etapa 9)**
 
@@ -91,89 +91,90 @@ b) ¿Por qué el torno y la fresadora originales quedaron con 0 piezas?
 
 c) La relación entre `ControlDeLinea` y `Maquina`, ¿es composición o agregación? ¿Por qué?
 
-[Inserta aquí tu respuesta]
+[Es agregacion porque control de linea solo guarda punteros a las mauinas si se destruye el control, las maquinas se pueden seguir existiendo de forma independiente]
 
 **3.4 Etapa 4. Destructores**
 
 | Momento | Mensajes de destrucción que aparecieron |
 | --- | --- |
-| `delete temporal;` sin destructor virtual | _____ |
-| `delete temporal;` con destructor virtual | _____ |
-| Al terminar `main` (torno y fresadora) | _____ |
+| `delete temporal;` sin destructor virtual | solo destruyo la base y dejo la clase derivada |
+| `delete temporal;` con destructor virtual | destruyo la clase derivada y luego base |
+| Al terminar `main` (torno y fresadora) | se destruyeron completos porque se crearon por valor y no como puertos dinamicos |
 
 a) ¿Qué advertencia mostró el compilador? ¿Por qué decimos que ya te estaba avisando del problema?
 
-[Inserta aquí tu respuesta]
+[aviso que una clase con metodos virtuales tiene un destructor no virtual, advirtiendo de borrados de objetos polimorficos]
 
 b) ¿Por qué el torno de `main` sí se destruyó completo aunque el destructor no fuera virtual? ¿A qué máquina corresponde el primer "Destruyendo Maquina" después de "Fin de main"?
 
-[Inserta aquí tu respuesta]
+[Porque se creo por valor, no con new. El mensaje corresponde a limpiar la parte de las clase base del objeto]
 
 **3.5 Etapa 5. La clase abstracta**
 
 a) Copia los mensajes de error y explica con tus palabras qué dice cada uno.
 
-[Inserta aquí tu respuesta]
+[decia que no se puede instanciar una clase abstrcta porque tiene funciones virtuales puras sin cuerpo definido]
 
 b) ¿Por qué es mejor este error de compilación que el comportamiento "generico" de antes?
 
-[Inserta aquí tu respuesta]
+[porque el compilador te detiene de inmediato en lugar de darte ejecutar un programa con errores logicos o comportamientos extraños]
 
 **3.6 Etapa 6. El contrato que el compilador no ve**
 
 a) ¿Qué partes del contrato violó `InspeccionVisual`?
 
-[Inserta aquí tu respuesta]
+[Ignoro las reglas de validacion o rangos establecidos en los comentarios del contrato para los parametros de entrada ]
 
 b) ¿Por qué el compilador no lo detectó?
 
-[Inserta aquí tu respuesta]
+[Porque los contratos estaban establecidos como comentarios de texto y no como codigo ejecutable]
 
 c) ¿Qué pasaría si el próximo equipo tampoco lee el comentario del contrato?
 
-[Inserta aquí tu respuesta]
+[volverian a introducir valores invalidos que romperian la logica de ejecucion del programa sin que nadie se enterara a tiempo]
 
 **3.7 Etapa 7. La base hace cumplir el contrato**
 
 a) ¿Cómo puede una clase derivada sobrescribir un método que es privado en la base?
 
-[Inserta aquí tu respuesta]
+[no se puede directamente, se cambia visibilidad a protegida para que las hijas tengan acceso pero se mantenga en encapsulamiento]
 
 b) ¿Qué ocurre ahora con una máquina cuyo tiempo de ciclo es 0? Compáralo con la Etapa 6.
 
-[Inserta aquí tu respuesta]
+[ahora el progama lanza una exepcion y detiene la ejecucion inmeditamente, mientras que la etapa 6 pasaba desapersivida]
 
 c) ¿Por qué la línea ignoró el "atajo" del torno, pero la llamada directa no? ¿Cómo corregiste el diseño?
 
-[Inserta aquí tu respuesta]
+[porque la llamada polimerica a traves de la intefaz generica solo ejecuta los metodos virtuales definidos, obligando a pasar por las reglas]
 
 **3.8 Etapa 8. Herencia mal usada**
 
 a) Da al menos dos razones por las que `BandaTransportadora : public Motor` es un error de diseño.
 
-[Inserta aquí tu respuesta]
+[una banda transportadora no es un motor sino que tiene un motor
+heredar los metodos de motor publicamente en la banda y no nos permitiri cambiar o reutilizar el motor independientemente]
 
 b) La relación entre `BandaTransportadora` y `Motor`, ¿es composición o agregación? ¿Por qué?
 
-[Inserta aquí tu respuesta]
+[es compocision porque el motor es una parte interna indispensable para la banda transportadora y un ciclo de vida esta igado a ella]
 
 **3.9 Etapa 9. La librería y la prueba final**
 
 a) Después de agregar la `Cortadora`, ¿qué archivos mostró `git status`? ¿Cuántos archivos de la librería tuviste que modificar?
 
-[Inserta aquí tu respuesta]
+[mostro cortadora.h y main.cpp. e la libreria no tuvimos que modificar ningun archivo gracias al polimorfismo]
 
 b) ¿Qué pasó al escribir `-lplanta` antes de `src/main.cpp`? ¿Por qué?
 
-[Inserta aquí tu respuesta]
+[dio error de enlace, porque en g++ las librerias con -l deben colocarse despues de los archivos objeto o fuente que consumen sus simbolos]
 
 **3.10 Bitácora de dudas**
 
 | # | Etapa | Duda | Cómo la resolví | Fuente |
 | --- | --- | --- | --- | --- |
-| 1 | _____ | _____ | _____ | _____ |
-| 2 | _____ | _____ | _____ | _____ |
-| 3 | _____ | _____ | _____ | _____ |
+| 1 | etapa 3  | porque el vector no guarda los cambios de las maquinas | guardando punteros en lugar de objetos con valor | clase/documentacion c++ | 
+| 2 | etapa 4 | porque no se ejecuta los destructores de las clases hijas | declarando el destructor de la clase base como virtual | documentacion c++ |
+| 3 | etapa 9 | error de enace al compilar la libreria | poniendo la bandera -planta al final del comando de compilacion| manual GCC/Terminal |
 
 ## Fase 4. Probar y mejorar
 
@@ -181,30 +182,30 @@ b) ¿Qué pasó al escribir `-lplanta` antes de `src/main.cpp`? ¿Por qué?
 
 | # | Caso | Resultado esperado | Resultado obtenido | ¿Pasa? |
 | --- | --- | --- | --- | --- |
-| 1 | Máquina con nombre vacío | Excepción con mensaje claro | _____ | _____ |
-| 2 | Reporte de una línea vacía | "La linea no tiene maquinas" | _____ | _____ |
-| 3 | `agregar(nullptr)` | Devuelve `false` | _____ | _____ |
-| 4 | Reporte antes de ejecutar el turno | 0 piezas, 0 s y capacidad calculada | _____ | _____ |
-| 5 | Turno de 0 ciclos | Nada cambia | _____ | _____ |
-| 6 | Torno con 3 ciclos | 3 piezas, 135 s, 80 pzas/h | _____ | _____ |
-| 7 | Máquina con `tiempoCicloSeg()` igual a 0 | Excepción con mensaje claro | _____ | _____ |
-| 8 | Máquina con `tiempoCicloSeg()` negativo | Excepción con mensaje claro | _____ | _____ |
-| 9 | La misma máquina agregada dos veces | _____ | _____ | _____ |
+| 1 | Máquina con nombre vacío | Excepción con mensaje claro | Exepcion con mensaje claro | si |
+| 2 | Reporte de una línea vacía | "La linea no tiene maquinas" | "La linea no tiene maquinas" | si |
+| 3 | `agregar(nullptr)` | Devuelve `false` | false | si |
+| 4 | Reporte antes de ejecutar el turno | 0 piezas, 0 s y capacidad calculada | 0 piezas, 0 s y capacidad calculada | si |
+| 5 | Turno de 0 ciclos | Nada cambia | sin cambios | si |
+| 6 | Torno con 3 ciclos | 3 piezas, 135 s, 80 pzas/h | 3 piezas, 135 s, 80 pzas/h | si |
+| 7 | Máquina con `tiempoCicloSeg()` igual a 0 | Excepción con mensaje claro | Excepción con mensaje claro | si |
+| 8 | Máquina con `tiempoCicloSeg()` negativo | Excepción con mensaje claro | Excepción con mensaje claro | si |
+| 9 | La misma máquina agregada dos veces | falso o rechaza duplicado | rechazado/falso | si |
 
 **4.2 Bitácora de mejoras**
 
 | # | Falla o mejora detectada | Qué cambié | Por qué |
 | --- | --- | --- | --- |
-| 1 | _____ | _____ | _____ |
-| 2 | _____ | _____ | _____ |
+| 1 | perdida de polimorfismo al compilar objetos | use un vector de punteros en lugar de objetos por valor | para evitar el revanado de objetos |
+| 2 | registro de uga de memoria en las maquinas | declare el destructotor de la clase base como virtual | para asegurar que se liberen corectamente |
 
-Retos opcionales que intenté: _____
+Retos opcionales que intenté: motor 
 
 ## Fase 5. Publicar en GitHub
 
 **5.1 Enlace a mi fork**
 
-[Inserta aquí el enlace a tu fork]
+[https://github.com/danielhernandez-commitsD/ulsa_ime_3_poo_evolucion_maquina]
 
 ## Cierre y reflexión
 
@@ -212,23 +213,23 @@ Retos opcionales que intenté: _____
 
 | Error | Etapa en que apareció | Restricción que lo impide ahora | ¿Quién lo detecta: el compilador o el programa? |
 | --- | --- | --- | --- |
-| Contadores con valores inválidos | _____ | _____ | _____ |
-| Máquina "fantasma" creada a escondidas | _____ | _____ | _____ |
-| Método que no sobrescribe por un `const` | _____ | _____ | _____ |
-| Máquinas copiadas y "rebanadas" | _____ | _____ | _____ |
-| Destrucción incompleta | _____ | _____ | _____ |
-| Máquina sin `procesar()` propio | _____ | _____ | _____ |
-| Tiempo de ciclo inválido | _____ | _____ | _____ |
-| Derivada que no registra sus piezas | _____ | _____ | _____ |
+| Contadores con valores inválidos | etapa 1 | vadilacion y encapsulamiento | programa |
+| Máquina "fantasma" creada a escondidas | etapa 1 | uso de explicit en constructores | compilador |
+| Método que no sobrescribe por un `const` | etapa 2 | uso de override | compilador |
+| Máquinas copiadas y "rebanadas" | etapa 3 | uso de punteros y polimorfismo | programa/compilador |
+| Destrucción incompleta | etapa 4 | destructor virtual | compilador/programa |
+| Máquina sin `procesar()` propio | etapa 5 | clase abstracta con metodo virtual puro | compilador |
+| Tiempo de ciclo inválido | etapa 6/7 | bloques try catch y expreciones | programa |
+| Derivada que no registra sus piezas | etapa 7 | reglas comunes en clase base | programa |
 
 **6.2 ¿Cuál de los errores fue el más peligroso: el de compilación, la advertencia o el que compilaba sin problemas? ¿Por qué?**
 
-[Inserta aquí tu respuesta]
+[El que compila sin problemas, porque permitia ejecutar el programa con errores logicos y de rebanado]
 
 **6.3 ¿Qué aprendiste en esta práctica?**
 
-[Inserta aquí tu respuesta]
+[aplicar correctamente los pilares de POO en c++ como polimorfimos, clase abstractas, manejo de memoria con destructores virtuales y control de expeciones  ]
 
 **6.4 ¿Qué cambiarías de tu proceso la próxima vez?**
 
-[Inserta aquí tu respuesta]
+[usar mejores practicas de diseño modular desde el principio y estructurar los punteros y contratos de validacion antes de escribir todo el codigo]
